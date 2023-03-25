@@ -1,0 +1,6 @@
+devel_space: /home/rpl/radar_relocalization/devel
+install: false
+install_space: /home/rpl/radar_relocalization/install
+profile: default
+source_space: /home/rpl/radar_relocalization/src
+workspace: /home/rpl/radar_relocalization
