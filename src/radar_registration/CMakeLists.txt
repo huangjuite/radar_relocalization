@@ -8,7 +8,7 @@ project(radar_registration)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  ros_pcl
+  pcl_ros
   sensor_msgs
   std_msgs
 )
@@ -105,7 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES radar_registration
-#  CATKIN_DEPENDS ros_pcl sensor_msgs std_msgs
+#  CATKIN_DEPENDS pcl_ros sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
