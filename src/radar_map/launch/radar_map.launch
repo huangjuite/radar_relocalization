@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- run pointcloud_to_laserscan node -->
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" output="screen">
+
+        <remap from="cloud_in" to="/radar_inlier"/>
+        <!-- <remap from="scan" to="$(arg camera)/scan"/> -->
+        <rosparam>
+            target_frame: radar # Leave disabled to output scan in pointcloud frame
+            <!-- transform_tolerance: 0.01 -->
+            min_height: -1.5
+            max_height: 1.5
+
+            angle_min: -3.141592 # -M_PI/2
+            angle_max: 3.141592 # M_PI/2
+            angle_increment: 0.02454369 # M_PI/360.0
+            scan_time: 0.1
+            range_min: 0.15
+            range_max: 15.0
+            use_inf: false
+            inf_epsilon: 1.0
+
+            # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+            # 0 : Detect number of cores
+            # 1 : Single threaded
+            # 2->inf : Parallelism level
+            concurrency_level: 0
+        </rosparam>
+
+    </node>
+
+
+    <node pkg="tf" type="static_transform_publisher" name="imu_broadcaster"
+        args="0.02023473  0.02861769 -0.13198028  0.49113445 -0.49274144  0.50233108 0.51347475 camera_left epson 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="cam_right_broadcaster"
+        args="-1.19774201e-01  6.08869577e-04 -3.69650634e-04 -4.30402633e-04 2.42048273e-03  2.17081233e-03  9.99994624e-01 camera_left camera_right 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster"
+        args="-0.0480 0.2056 -0.1212 -0.46742594 -0.44685938 -0.52528351 0.55308227 camera_left velodyne 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="base_broadcaster"
+        args="0 0 0 1.57079632679 0 1.57079632679 base_link camera_left 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="radar_broadcaster"
+        args="0 -0.059885 -0.1 0 0.095 0 base_link radar 100" />
+
+
+</launch>

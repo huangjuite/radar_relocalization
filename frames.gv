@@ -1,0 +1,12 @@
+digraph G {
+"base" -> "camera_left"[label=" Broadcaster: /base_broadcaster\nAverage rate: 10.092\nBuffer length: 4.855\nMost recent transform: 1674868417.161\nOldest transform: 1674868412.305\n"];
+"odom" -> "base"[label=" Broadcaster: /odom2Tf_node\nAverage rate: 10.203\nBuffer length: 4.901\nMost recent transform: 1674868417.086\nOldest transform: 1674868412.186\n"];
+"camera_left" -> "velodyne"[label=" Broadcaster: /lidar_broadcaster\nAverage rate: 10.092\nBuffer length: 4.855\nMost recent transform: 1674868417.171\nOldest transform: 1674868412.315\n"];
+"camera_left" -> "camera_right"[label=" Broadcaster: /cam_right_broadcaster\nAverage rate: 10.092\nBuffer length: 4.855\nMost recent transform: 1674868417.191\nOldest transform: 1674868412.336\n"];
+"camera_left" -> "epson"[label=" Broadcaster: /imu_broadcaster\nAverage rate: 10.092\nBuffer length: 4.855\nMost recent transform: 1674868417.191\nOldest transform: 1674868412.336\n"];
+"base" -> "radar"[label=" Broadcaster: /radar_broadcaster\nAverage rate: 10.092\nBuffer length: 4.855\nMost recent transform: 1674868417.191\nOldest transform: 1674868412.336\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1674868417.1411562"[ shape=plaintext ] ;
+}->"odom";
+}

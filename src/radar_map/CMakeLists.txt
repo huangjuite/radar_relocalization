@@ -11,6 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   sensor_msgs
   std_msgs
+  tf2_ros 
+  tf2_geometry_msgs 
+  tf2_eigen 
+  geometry_msgs 
+  nav_msgs
+  pcl_conversions
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -116,7 +123,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -133,8 +140,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/radar_map_node.cpp)
-
+add_executable(odom2tf_node src/odom2tf.cpp)
+target_link_libraries(odom2tf_node ${catkin_LIBRARIES})
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
