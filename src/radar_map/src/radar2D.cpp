@@ -1,16 +1,16 @@
-#include "odom2tf.hpp"
+#include "radar2D.hpp"
 
 
 
-Odom2Tf::Odom2Tf(ros::NodeHandle* nh) {
+Radar2D::Radar2D(ros::NodeHandle* nh) {
   odom_topic_ = "/dopplerIO";
   parent_frame_ = "/odom";
   child_frame_ = "/base_link";
-  odomSub_ = nh->subscribe(odom_topic_, 1, &Odom2Tf::odomCb, this);
+  odomSub_ = nh->subscribe(odom_topic_, 1, &Radar2D::odomCb, this);
 }
 
 
-void Odom2Tf::odomCb(const nav_msgs::OdometryConstPtr& odom) {
+void Radar2D::odomCb(const nav_msgs::OdometryConstPtr& odom) {
   geometry_msgs::TransformStamped transformStamped;
   transformStamped.header.stamp = odom->header.stamp;
   transformStamped.header.frame_id = parent_frame_;
@@ -28,11 +28,11 @@ void Odom2Tf::odomCb(const nav_msgs::OdometryConstPtr& odom) {
 
 int main(int argc, char** argv )
 {
-    ros::init(argc, argv, "odom2Tf_node");
+    ros::init(argc, argv, "Radar2D_node");
 
     ros::NodeHandle nh("");
     
-    Odom2Tf odom2tf(&nh);
+    Radar2D Radar2D(&nh);
     
     ros::spin();
     return 0;

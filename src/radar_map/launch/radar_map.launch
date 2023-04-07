@@ -1,5 +1,16 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="use_sim_time" default="true" />
+    <param name="/use_sim_time" value="$(arg use_sim_time)" />
+
+    <node pkg="radar_map" type="radar2D_node" name="radar2D_node" output="screen" />
+    <arg name="map_file" default="$(find radar_map)/maps/nsh4f.yaml"/>
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <arg name="bag_name" default="origin" />
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock $(find radar_map)/bags/$(arg bag_name).bag /tf:=/tf_ground_truth" />
+
 
     <!-- run pointcloud_to_laserscan node -->
     <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" output="screen">
@@ -46,5 +57,8 @@
     <node pkg="tf" type="static_transform_publisher" name="radar_broadcaster"
         args="0 -0.059885 -0.1 0 0.095 0 base_link radar 100" />
 
+
+    <node name="rviz" pkg="rviz" type="rviz" respawn="false"
+    args="-d $(find radar_map)/rviz/top_view_map.rviz" />
 
 </launch>

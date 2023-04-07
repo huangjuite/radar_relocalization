@@ -2,10 +2,11 @@
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <nav_msgs/Odometry.h>
+#include <nav_msgs/Path.h>
 
-class Odom2Tf {
+class Radar2D {
 public:
-    Odom2Tf(ros::NodeHandle* nh);
+    Radar2D(ros::NodeHandle* nh);
 private:
     ros::Subscriber odomSub_;
     tf2_ros::TransformBroadcaster odom2BaseBr_;
