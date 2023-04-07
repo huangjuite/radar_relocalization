@@ -3,3 +3,4 @@ devel/
 logs/
 bags/
 .catkin_tools/
+.catkin_workspace
