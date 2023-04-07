@@ -4,9 +4,68 @@
 
 Radar2D::Radar2D(ros::NodeHandle* nh) {
   odom_topic_ = "/dopplerIO";
+  amcl_pose_topic_ = "/amcl_pose";
+  amcl_path_topic_ = "/amcl_path";
+  global_frame_ = "/map";
   parent_frame_ = "/odom";
   child_frame_ = "/base_link";
   odomSub_ = nh->subscribe(odom_topic_, 1, &Radar2D::odomCb, this);
+  amclPoseSub_ = nh->subscribe(amcl_pose_topic_, 1, &Radar2D::amclPoseCb, this);
+  amclPathPub_ = nh->advertise<nav_msgs::Path>(amcl_path_topic_, 1000);
+  amcl_path_.header.frame_id = global_frame_;
+  // initPosePub_ = nh->advertise<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 10);
+  // setInitial();
+}
+
+void Radar2D::setInitial() {
+  /*
+    Double Bag initial pose
+    pose: 
+    position: 
+      x: 52.57637405395508
+      y: -3.3849635124206543
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.999865070137846
+      w: 0.016426853570914664
+    covariance: [0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25,
+     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.06853892326654787]
+  */
+  geometry_msgs::PoseWithCovarianceStamped pose;
+  pose.header.frame_id = global_frame_;
+  pose.header.stamp = ros::Time::now(); 
+
+  geometry_msgs::Point point;
+  geometry_msgs::Quaternion quat;
+  point.x = 52.57637405395508;
+  point.y = -3.3849635124206543;
+  point.z = 0.0;
+
+  quat.x = 0.0;
+  quat.y = 0.0;
+  quat.z = 0.999865070137846;
+  quat.w = 0.016426853570914664;
+
+  pose.pose.pose.position = point;
+  pose.pose.pose.orientation = quat;
+
+  pose.pose.covariance = {0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25,
+     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.06853892326654787};
+  
+  initPosePub_.publish(pose);
+}
+
+void Radar2D::amclPoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& amcl_pose) {
+  geometry_msgs::PoseStamped pathPose;
+  pathPose.pose = amcl_pose->pose.pose;
+  amcl_path_.poses.push_back(pathPose);
+  amclPathPub_.publish(amcl_path_);
 }
 
 

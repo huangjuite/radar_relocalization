@@ -137,6 +137,30 @@ Visualization Manager:
       Topic: /particlecloud
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /amcl_path
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -176,8 +200,8 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Scale: 9.41983699798584
       Target Frame: base_link
-      X: 12.999391555786133
-      Y: 19.079578399658203
+      X: 16.939001083374023
+      Y: -8.47778034210205
     Saved: ~
 Window Geometry:
   Displays:
@@ -195,5 +219,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1200
-  X: 45
+  X: 35
   Y: 27

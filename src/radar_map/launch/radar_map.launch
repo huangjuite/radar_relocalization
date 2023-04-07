@@ -57,6 +57,11 @@
     <node pkg="tf" type="static_transform_publisher" name="radar_broadcaster"
         args="0 -0.059885 -0.1 0 0.095 0 base_link radar 100" />
 
+    <node pkg="amcl" type="amcl" name="amcl_node" output="screen" >
+        <param name="initial_pose_x" value="52.57637405395508" />
+        <param name="initial_pose_y" value="-3.3849635124206543" />
+        <param name="initial_pose_a" value="3.1087375" />
+    </node>
 
     <node name="rviz" pkg="rviz" type="rviz" respawn="false"
     args="-d $(find radar_map)/rviz/top_view_map.rviz" />
