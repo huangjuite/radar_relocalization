@@ -2,13 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "catkin_make",
+            "label": "catkin_build",
             "type": "shell",
-            "command": "catkin_make",
-            "args": [
-                "-C",
-                "${workspaceFolder}"
-            ],
+            "command": "catkin build",
             "group": {
                 "kind": "build",
                 "isDefault": true

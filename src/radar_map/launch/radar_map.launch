@@ -9,7 +9,7 @@
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
     <arg name="bag_name" default="double" />
-    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock $(find radar_map)/bags/$(arg bag_name).bag /tf:=/tf_ground_truth" />
+    <node pkg="rosbag" type="play" name="player" args="--clock $(find radar_map)/bags/$(arg bag_name).bag /tf:=/tf_ground_truth" />
 
 
     <!-- run pointcloud_to_laserscan node -->

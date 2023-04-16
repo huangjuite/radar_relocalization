@@ -1,6 +1,6 @@
-image: map.pgm
+image: nsh4f.pgm
 resolution: 0.100000
-origin: [-6.700000, -34.500001, -nan]
+origin: [-6.700000, -34.500001, 0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
