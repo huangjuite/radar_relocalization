@@ -78,8 +78,27 @@ void Radar2D::amclPoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPt
 {
     geometry_msgs::PoseStamped pathPose;
     pathPose.pose = amcl_pose->pose.pose;
+    pathPose.header.stamp = amcl_pose->header.stamp;
     amcl_path_.poses.push_back(pathPose);
     amclPathPub_.publish(amcl_path_);
+}
+
+Radar2D::~Radar2D()
+{
+    std::ofstream myfile;
+    myfile.open("/home/rpl/radar_relocalization/radar_results.csv");
+    myfile << "stamp, x, y, theta\n";
+
+    for (auto p : amcl_path_.poses)
+    {
+        Eigen::Affine3d a3d;
+        Eigen::fromMsg(p.pose, a3d);
+        Eigen::Vector3d ypr = a3d.rotation().eulerAngles(2, 1, 0);
+        myfile << p.header.stamp.toSec() << "," << p.pose.position.x << ", "
+               << p.pose.position.y << ", " << ypr(0) << "\n ";
+    }
+
+    myfile.close();
 }
 
 int main(int argc, char **argv)

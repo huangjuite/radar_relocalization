@@ -14,23 +14,21 @@
 
 #include <Eigen/Dense>
 #include <tf2_eigen/tf2_eigen.h>
+#include <signal.h>
 
 #include "utils.hpp"
 
-typedef message_filters::sync_policies::ExactTime<sensor_msgs::PointCloud2, nav_msgs::Odometry> MySyncPolicy;
+#include <iostream>
+#include <fstream>
 
-class Radar2D
+class Lidar2D
 {
 public:
-    Radar2D(ros::NodeHandle *nh);
-    ~Radar2D();
+    Lidar2D(ros::NodeHandle *nh);
+    ~Lidar2D();
 
 private:
-    message_filters::Subscriber<sensor_msgs::PointCloud2> radarSub_;
-    message_filters::Subscriber<nav_msgs::Odometry> odomSub_;
-    message_filters::Synchronizer<MySyncPolicy> *sync;
-
-    ros::Subscriber amclPoseSub_;
+    ros::Subscriber amclPoseSub_, sub_odom;
     ros::Publisher amclPathPub_, initPosePub_;
 
     // PointCloud stacking
@@ -38,7 +36,6 @@ private:
     std::deque<Eigen::Matrix4f> transform_queue_;
     std::deque<pcl_cloud_ptr_t> cloud_queue_;
     int pose_cap_; // How many poses to store in an array before stacking
-    ros::Publisher denseCloudPub_;
 
     tf2_ros::TransformBroadcaster odom2BaseBr_;
     std::string parent_frame_; // odom
@@ -47,8 +44,6 @@ private:
     std::string odom_topic_, amcl_pose_topic_, amcl_path_topic_, radar_topic_, dense_cloud_topic_;
     nav_msgs::Path amcl_path_;
 
-    void broadcastOdom(const nav_msgs::OdometryConstPtr &odom_msg);
-    void addQueue(const sensor_msgs::PointCloud2ConstPtr &pc_msg, const nav_msgs::OdometryConstPtr &odom_msg);
     void amclPoseCb(const geometry_msgs::PoseWithCovarianceStampedConstPtr &amcl_pose);
-    void cb_radar(const sensor_msgs::PointCloud2ConstPtr &pc_msg, const nav_msgs::OdometryConstPtr &odom);
+    void cb_odom(const nav_msgs::OdometryConstPtr &odom_msg);
 };

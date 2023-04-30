@@ -26,7 +26,7 @@ pcl_cloud_ptr_t getTargetCloud(pcl_cloud_ptr_t &source_cloud_ptr, const Eigen::M
     // Find the affine3d transform (P) that projects from source frame to target frame
     // So target = P * source
     Eigen::Matrix4f P;
-    P = target * source.inverse();
+    P = target.inverse() * source;
 
     // Executing the transformation
     pcl_cloud_ptr_t target_cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>());

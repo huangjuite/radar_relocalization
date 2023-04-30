@@ -143,6 +143,10 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(radar2D_node src/radar2D.cpp)
 target_link_libraries(radar2D_node ${catkin_LIBRARIES})
+
+add_executable(lidar2D_node src/lidar2D.cpp)
+target_link_libraries(lidar2D_node ${catkin_LIBRARIES})
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

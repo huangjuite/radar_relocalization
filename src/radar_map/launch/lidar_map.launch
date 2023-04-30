@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="use_sim_time" default="true" />
-    <param name="/use_sim_time" value="$(arg use_sim_time)" />
-    
+    <param name="/use_sim_time" value="$(arg use_sim_time)" />  
+
     <node pkg="radar_map" type="sub_odom.py" name="sub_odom" output="screen" />
 
-    <node pkg="radar_map" type="radar2D_node" name="radar2D_node" output="screen" />
+    <node pkg="radar_map" type="lidar2D_node" name="lidar2D_node" output="screen" />
     <arg name="map_file" default="$(find radar_map)/maps/nsh4f.yaml"/>
     <!-- Run the map server -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
-    <arg name="bag_name" default="double" />
+    <arg name="bag_name" default="double_lidar" />
     <node pkg="rosbag" type="play" name="player" args="--clock $(find radar_map)/bags/$(arg bag_name).bag /tf:=/tf_ground_truth" />
-
 
     <!-- run pointcloud_to_laserscan node -->
     <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" output="screen">
 
-        <remap from="cloud_in" to="/dense_cloud"/>
+        <!-- <remap from="cloud_in" to="/dense_cloud"/> -->
+        <remap from="cloud_in" to="/velodyne_points"/>
         <!-- <remap from="scan" to="$(arg camera)/scan"/> -->
         <rosparam>
-            target_frame: radar # Leave disabled to output scan in pointcloud frame
+            target_frame: base_link # Leave disabled to output scan in pointcloud frame
             <!-- transform_tolerance: 0.01 -->
-            min_height: -1.5
-            max_height: 1.5
+            min_height: -1
+            max_height: 1
 
             angle_min: -3.141592 # -M_PI/2
             angle_max: 3.141592 # M_PI/2
